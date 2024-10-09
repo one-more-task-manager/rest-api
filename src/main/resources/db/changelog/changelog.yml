@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: danil
+      changes:
+        - sqlFile:
+            path: db/changelog/V1__create_users_table.sql
+            relativeToChangelogFile: false
