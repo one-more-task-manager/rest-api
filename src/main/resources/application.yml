@@ -8,3 +8,7 @@ spring:
       ddl-auto: validate
   liquibase:
     change-log: classpath:/db/changelog/changelog.yml
+
+server:
+  servlet:
+    context-path: /api/v1
