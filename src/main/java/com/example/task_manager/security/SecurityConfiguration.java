@@ -37,16 +37,14 @@ public class SecurityConfiguration {
         return new ProviderManager(provider);
     }
 
-    //TODO: filter does not work for auth endpoints
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 
         return httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
-//                .cors(c -> c.configurationSource(this.corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
-//                        .requestMatchers("/auth/**").permitAll()
-                        .anyRequest().permitAll()
+                        .requestMatchers("/auth/**").permitAll()
+                        .anyRequest().authenticated()
                 )
                 .addFilterBefore(this.jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
