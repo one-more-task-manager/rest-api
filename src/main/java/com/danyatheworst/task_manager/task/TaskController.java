@@ -10,11 +10,22 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/todolists/{todolistId}/tasks")
 public class TaskController {
     private final TaskService taskService;
+
+    @GetMapping("")
+    public ResponseEntity<List<Task>> get(
+            @PathVariable @NotNull @Positive Long todolistId,
+            @AuthenticationPrincipal JwtUserDetailsDto user
+    ) {
+        List<Task> tasks = this.taskService.findAllByTodolistId(todolistId, user.getId());
+        return ResponseEntity.status(HttpStatus.OK).body(tasks);
+    }
 
     @PostMapping("")
     public ResponseEntity<Void> create(

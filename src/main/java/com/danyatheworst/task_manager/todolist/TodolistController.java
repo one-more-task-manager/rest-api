@@ -31,7 +31,7 @@ public class TodolistController {
             @PathVariable @NotNull @Positive Long id,
             @AuthenticationPrincipal JwtUserDetailsDto user
     ) {
-        Todolist todolist = this.todolistService.find(id, user.getId());
+        Todolist todolist = this.todolistService.findAndCheckOwnership(id, user.getId());
         return ResponseEntity.status(HttpStatus.OK).body(todolist);
     }
 

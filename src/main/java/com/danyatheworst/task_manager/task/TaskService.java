@@ -6,6 +6,8 @@ import com.danyatheworst.task_manager.todolist.TodolistService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @AllArgsConstructor
 @Service
@@ -13,13 +15,19 @@ public class TaskService {
     private final TodolistService todolistService;
     private final TaskRepository taskRepository;
 
+    public List<Task> findAllByTodolistId(Long todolistId, Long userId) {
+        this.todolistService.findAndCheckOwnership(todolistId, userId);
+
+        return this.taskRepository.findAllByTodolistId(todolistId);
+    }
+
     public void save(RequestCreateTaskDto payload, Long todolistId, Long userId) {
-        this.todolistService.find(todolistId, userId);
+        this.todolistService.findAndCheckOwnership(todolistId, userId);
         this.taskRepository.save(new Task(payload.getTitle(), todolistId));
     }
 
     public void delete(Long id, Long todolistId, Long userId) {
-        this.todolistService.find(todolistId, userId);
+        this.todolistService.findAndCheckOwnership(todolistId, userId);
 
         Task task = this.taskRepository
                 .findById(id)

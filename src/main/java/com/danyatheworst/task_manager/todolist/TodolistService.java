@@ -17,7 +17,7 @@ public class TodolistService {
         return this.todolistRepository.findAllByUserId(userId);
     }
 
-    public Todolist find(Long id, Long userId) {
+    public Todolist findAndCheckOwnership(Long id, Long userId) {
         Todolist todolist = this.todolistRepository
                 .findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("todolist with id " + id + " does not exist"));
@@ -33,13 +33,13 @@ public class TodolistService {
     }
 
     public void update(Long id, RequestUpdateTodolistDto payload, Long userId) {
-        Todolist todolist = this.find(id, userId);
+        Todolist todolist = this.findAndCheckOwnership(id, userId);
         todolist.setTitle(payload.getTitle());
         this.todolistRepository.save(todolist);
     }
 
     public void delete(Long id, Long userId) {
-        Todolist todolist = this.find(id, userId);
+        Todolist todolist = this.findAndCheckOwnership(id, userId);
         this.todolistRepository.delete(todolist);
     }
 }
