@@ -34,6 +34,16 @@ public class TodolistController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    @PatchMapping("{id}")
+    public ResponseEntity<Void> update(
+            @PathVariable @NotNull @Positive Long id,
+            @RequestBody @Valid RequestUpdateTodolistDto payload,
+            @AuthenticationPrincipal JwtUserDetailsDto user
+    ) {
+        this.todolistService.update(id, payload, user.getId());
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
     @DeleteMapping("{id}")
     public ResponseEntity<Void> delete(
             @PathVariable @NotNull @Positive Long id,

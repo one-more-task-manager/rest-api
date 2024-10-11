@@ -23,6 +23,7 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.List;
+import java.util.Optional;
 
 @Testcontainers
 @SpringBootTest
@@ -133,8 +134,8 @@ public class TodolistIntegrationTests {
 
     @Test
     void itShouldReturn404StatusCodeWhenFetchingTodolistThatDoesNotExist() throws Exception {
-        String todolistTitle = "todolist-test";
-        Todolist todolist = this.todolistRepository.save(new Todolist(todolistTitle, this.user.getId()));
+        String title = "todolist-test";
+        Todolist todolist = this.todolistRepository.save(new Todolist(title, this.user.getId()));
         User maliciousUser = this.userRepository.save(new User("malicious user", "malicious password"));
         JwtUserDetailsDto jwtUserDetailsDto = new JwtUserDetailsDto(
                 maliciousUser.getId(), maliciousUser.getUsername(), maliciousUser.getAuthorities()
@@ -153,4 +154,25 @@ public class TodolistIntegrationTests {
                         .header("Authorization", "Bearer " + this.accessToken))
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
     }
+
+    @Test
+    void itShouldReturn204StatusCodeWhenUpdateTodolist() throws Exception {
+        String title = "todolist";
+        Todolist todolist = this.todolistRepository.save(new Todolist(title, this.user.getId()));
+        RequestUpdateTodolistDto payload = new RequestUpdateTodolistDto("updated-todolist");
+
+        this.mockMvc.perform(MockMvcRequestBuilders.patch("/todolist/{id}", todolist.getId())
+                        .header("Authorization", "Bearer " + this.accessToken)
+                        .content(this.objectMapper.writeValueAsString(payload))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isNoContent());
+
+        Optional<Todolist> updatedTodolist = this.todolistRepository.findById(todolist.getId());
+        Assertions.assertTrue(updatedTodolist.isPresent());
+        Assertions.assertEquals(todolist.getId(), updatedTodolist.get().getId());
+        Assertions.assertEquals(payload.getTitle(), updatedTodolist.get().getTitle());
+    }
+
+    //403 when updating
+    //404 when updating
 }
