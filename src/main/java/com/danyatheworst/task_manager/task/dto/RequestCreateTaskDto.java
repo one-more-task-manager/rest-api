@@ -1,4 +1,4 @@
-package com.danyatheworst.task_manager.task;
+package com.danyatheworst.task_manager.task.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

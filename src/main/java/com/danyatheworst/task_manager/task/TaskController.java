@@ -1,6 +1,9 @@
 package com.danyatheworst.task_manager.task;
 
 import com.danyatheworst.task_manager.auth.dto.JwtUserDetailsDto;
+import com.danyatheworst.task_manager.task.dto.RequestCreateTaskDto;
+import com.danyatheworst.task_manager.task.dto.RequestUpdateTaskDto;
+import com.danyatheworst.task_manager.task.dto.UpdateTaskDto;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -35,6 +38,17 @@ public class TaskController {
     ) {
         this.taskService.save(payload, todolistId, user.getId());
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @PatchMapping("{taskId}")
+    public ResponseEntity<Void> update(
+            @PathVariable Long todolistId,
+            @PathVariable Long taskId,
+            @RequestBody RequestUpdateTaskDto payload,
+            @AuthenticationPrincipal JwtUserDetailsDto user
+    ) {
+        this.taskService.update(new UpdateTaskDto(taskId, payload, todolistId, user.getId()));
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("{taskId}")

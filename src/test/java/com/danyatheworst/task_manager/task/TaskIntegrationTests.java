@@ -2,6 +2,8 @@ package com.danyatheworst.task_manager.task;
 
 import com.danyatheworst.task_manager.auth.dto.JwtUserDetailsDto;
 import com.danyatheworst.task_manager.auth.jwt.JwtService;
+import com.danyatheworst.task_manager.task.dto.RequestCreateTaskDto;
+import com.danyatheworst.task_manager.task.dto.RequestUpdateTaskDto;
 import com.danyatheworst.task_manager.todolist.Todolist;
 import com.danyatheworst.task_manager.todolist.TodolistRepository;
 import com.danyatheworst.task_manager.user.User;
@@ -25,6 +27,7 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.List;
+import java.util.Optional;
 
 @Testcontainers
 @SpringBootTest
@@ -113,5 +116,28 @@ public class TaskIntegrationTests {
 
         List<Task> tasks = this.taskRepository.findAll();
         Assertions.assertEquals(0, tasks.size());
+    }
+
+    @Test
+    void itShouldReturn204StatusCodeWhenUpdateTask() throws Exception {
+        Long todolistId = this.todolist.getId();
+        Task task = this.taskRepository.save(new Task("task-test", todolistId));
+        String updatedTitle = "update-title-task-test";
+        boolean updatedStatus = true;
+        RequestUpdateTaskDto payload = new RequestUpdateTaskDto(updatedTitle, updatedStatus);
+
+        this.mockMvc.perform(MockMvcRequestBuilders.patch(
+                                "/todolists/{todolistId}/tasks/{taskId}", todolistId, task.getId()
+                        )
+                        .header("Authorization", "Bearer " + this.accessToken)
+                        .content(this.objectMapper.writeValueAsString(payload))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isNoContent());
+
+        Optional<Task> updatedTask = this.taskRepository.findById(todolist.getId());
+        Assertions.assertTrue(updatedTask.isPresent());
+        Assertions.assertEquals(task.getId(), updatedTask.get().getId());
+        Assertions.assertEquals(updatedTitle, updatedTask.get().getTitle());
+        Assertions.assertEquals(updatedStatus, updatedTask.get().getIsDone());
     }
 }

@@ -21,7 +21,7 @@ public class Task {
     private String title;
 
     @Column
-    private boolean isDone;
+    private Boolean isDone;
 
     @JoinColumn(name = "todolist_id", nullable = false)
     private Long todolistId;
