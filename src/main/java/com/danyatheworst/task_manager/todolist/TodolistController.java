@@ -10,11 +10,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/todolist")
+@RequestMapping("/todolists")
 public class TodolistController {
     private final TodolistService todolistService;
+
+    @GetMapping("")
+    public ResponseEntity<List<Todolist>> get(
+            @AuthenticationPrincipal JwtUserDetailsDto user
+    ) {
+        List<Todolist> todolists = this.todolistService.findAll(user.getId());
+        return ResponseEntity.status(HttpStatus.OK).body(todolists);
+    }
 
     @GetMapping("{id}")
     public ResponseEntity<Todolist> get(

@@ -80,7 +80,7 @@ public class TodolistIntegrationTests {
         String title = "todolist-test";
         RequestCreateTodolistDto payload = new RequestCreateTodolistDto(title);
 
-        this.mockMvc.perform(MockMvcRequestBuilders.post("/todolist")
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/todolists")
                         .header("Authorization", "Bearer " + this.accessToken)
                         .content(this.objectMapper.writeValueAsString(payload))
                         .contentType(MediaType.APPLICATION_JSON))
@@ -97,7 +97,7 @@ public class TodolistIntegrationTests {
         Todolist todolist = this.todolistRepository.save(new Todolist("todolist-test", this.user.getId()));
         //since database is empty, todolist with id 1 is created
 
-        this.mockMvc.perform(MockMvcRequestBuilders.delete("/todolist/{id}", todolist.getId())
+        this.mockMvc.perform(MockMvcRequestBuilders.delete("/todolists/{id}", todolist.getId())
                         .header("Authorization", "Bearer " + this.accessToken))
                 .andExpect(MockMvcResultMatchers.status().isNoContent());
 
@@ -108,7 +108,7 @@ public class TodolistIntegrationTests {
     @Test
     void itShouldReturn404StatusCodeWhenTodolistToDeleteDoesNotExist() throws Exception {
         Long nonExistentId = 1234567854321L;
-        this.mockMvc.perform(MockMvcRequestBuilders.delete("/todolist/{id}", nonExistentId)
+        this.mockMvc.perform(MockMvcRequestBuilders.delete("/todolists/{id}", nonExistentId)
                         .header("Authorization", "Bearer " + this.accessToken))
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
     }
@@ -123,7 +123,7 @@ public class TodolistIntegrationTests {
         );
         String maliciousToken = this.jwtService.generateAccessToken(jwtUserDetailsDto);
 
-        this.mockMvc.perform(MockMvcRequestBuilders.delete("/todolist/{id}", todolist.getId())
+        this.mockMvc.perform(MockMvcRequestBuilders.delete("/todolists/{id}", todolist.getId())
                         .header("Authorization", "Bearer " + maliciousToken))
                 .andExpect(MockMvcResultMatchers.status().isForbidden());
 
@@ -142,7 +142,7 @@ public class TodolistIntegrationTests {
         );
         String maliciousToken = this.jwtService.generateAccessToken(jwtUserDetailsDto);
 
-        this.mockMvc.perform(MockMvcRequestBuilders.delete("/todolist/{id}", todolist.getId())
+        this.mockMvc.perform(MockMvcRequestBuilders.delete("/todolists/{id}", todolist.getId())
                         .header("Authorization", "Bearer " + maliciousToken))
                 .andExpect(MockMvcResultMatchers.status().isForbidden());
     }
@@ -150,7 +150,7 @@ public class TodolistIntegrationTests {
     @Test
     void itShouldReturn403StatusCodeWhenFetchingTodolistThatDoesNotBelongToUser() throws Exception {
         Long nonExistentId = 1234567854321L;
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/todolist/{id}", nonExistentId)
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/todolists/{id}", nonExistentId)
                         .header("Authorization", "Bearer " + this.accessToken))
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
     }
@@ -161,7 +161,7 @@ public class TodolistIntegrationTests {
         Todolist todolist = this.todolistRepository.save(new Todolist(title, this.user.getId()));
         RequestUpdateTodolistDto payload = new RequestUpdateTodolistDto("updated-todolist");
 
-        this.mockMvc.perform(MockMvcRequestBuilders.patch("/todolist/{id}", todolist.getId())
+        this.mockMvc.perform(MockMvcRequestBuilders.patch("/todolists/{id}", todolist.getId())
                         .header("Authorization", "Bearer " + this.accessToken)
                         .content(this.objectMapper.writeValueAsString(payload))
                         .contentType(MediaType.APPLICATION_JSON))

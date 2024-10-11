@@ -5,11 +5,17 @@ import com.danyatheworst.task_manager.exceptions.ForbiddenException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @AllArgsConstructor
 @Service
 public class TodolistService {
     private final TodolistRepository todolistRepository;
+
+    public List<Todolist> findAll(Long userId) {
+        return this.todolistRepository.findAllByUserId(userId);
+    }
 
     public Todolist find(Long id, Long userId) {
         Todolist todolist = this.todolistRepository
