@@ -16,6 +16,15 @@ import org.springframework.web.bind.annotation.*;
 public class TodolistController {
     private final TodolistService todolistService;
 
+    @GetMapping("{id}")
+    public ResponseEntity<Void> get(
+            @PathVariable @NotNull @Positive Long id,
+            @AuthenticationPrincipal JwtUserDetailsDto user
+    ) {
+        this.todolistService.find(id, user.getId());
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
     @PostMapping("")
     public ResponseEntity<Void> create(
             @RequestBody @Valid RequestCreateTodolistDto payload,
