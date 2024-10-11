@@ -51,25 +51,30 @@ public class TodolistIntegrationTests {
     @Autowired
     private JwtService jwtService;
 
-    private String accessToken;
-
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    private final User user = new User(1L, "username", "password");
+    private String accessToken;
+    private User user;
 
     @BeforeEach
     void setUp() {
-        this.userRepository.save(this.user);
+        this.user = this.userRepository.save(new User("username", "password"));
         JwtUserDetailsDto jwtUserDetailsDto = new JwtUserDetailsDto(
                 this.user.getId(), this.user.getUsername(), this.user.getAuthorities()
         );
         this.accessToken = this.jwtService.generateAccessToken(jwtUserDetailsDto);
+        System.out.println("before each end");
+        System.out.println("______________");
     }
 
     @AfterEach
     void tearDown() {
+        System.out.println("after each start");
+        System.out.println("______________");
         this.todolistRepository.deleteAll();
         this.userRepository.deleteAll();
+        System.out.println("after each end");
+        System.out.println("______________");
     }
 
     @Test
@@ -87,5 +92,45 @@ public class TodolistIntegrationTests {
         Assertions.assertEquals(1, todolists.size());
         Assertions.assertEquals(title, todolists.get(0).getTitle());
         Assertions.assertEquals(user.getId(), todolists.get(0).getUserId());
+    }
+
+    @Test
+    void itShouldReturn201StatusCodeWhenTodolistWasRemoved() throws Exception {
+        Todolist todolist = this.todolistRepository.save(new Todolist("todolist-test", this.user.getId()));
+        //since database is empty, todolist with id 1 is created
+
+        this.mockMvc.perform(MockMvcRequestBuilders.delete("/todolist/{id}", todolist.getId())
+                        .header("Authorization", "Bearer " + this.accessToken))
+                .andExpect(MockMvcResultMatchers.status().isNoContent());
+
+        List<Todolist> todolists = this.todolistRepository.findAll();
+        Assertions.assertEquals(0, todolists.size());
+    }
+
+    @Test
+    void itShouldReturn404StatusCodeWhenTodolistToDeleteDoesNotExist() throws Exception {
+        Long nonExistentId = 1234567854321L;
+        this.mockMvc.perform(MockMvcRequestBuilders.delete("/todolist/{id}", nonExistentId)
+                        .header("Authorization", "Bearer " + this.accessToken))
+                .andExpect(MockMvcResultMatchers.status().isNotFound());
+    }
+
+    @Test
+    void itShouldReturn403StatusCodeWhenTodolistToDeleteDoesNotBelongUser() throws Exception {
+        String todolistTitle = "todolist-test";
+        Todolist todolist = this.todolistRepository.save(new Todolist(todolistTitle, this.user.getId()));
+        User maliciousUser = new User(2L, "malicious user", "malicious password");
+        JwtUserDetailsDto jwtUserDetailsDto = new JwtUserDetailsDto(
+                maliciousUser.getId(), maliciousUser.getUsername(), maliciousUser.getAuthorities()
+        );
+        String maliciousToken = this.jwtService.generateAccessToken(jwtUserDetailsDto);
+
+        this.mockMvc.perform(MockMvcRequestBuilders.delete("/todolist/{id}", todolist.getId())
+                        .header("Authorization", "Bearer " + maliciousToken))
+                .andExpect(MockMvcResultMatchers.status().isForbidden());
+
+        List<Todolist> todolists = this.todolistRepository.findAll();
+        Assertions.assertEquals(1, todolists.size());
+        Assertions.assertEquals(todolistTitle, todolists.get(0).getTitle());
     }
 }

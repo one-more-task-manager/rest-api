@@ -1,9 +1,6 @@
 package com.danyatheworst.task_manager;
 
-import com.danyatheworst.task_manager.exceptions.EntityAlreadyExistsException;
-import com.danyatheworst.task_manager.exceptions.InvalidCredentialsException;
-import com.danyatheworst.task_manager.exceptions.InternalServerException;
-import com.danyatheworst.task_manager.exceptions.UnauthorizedException;
+import com.danyatheworst.task_manager.exceptions.*;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
@@ -72,6 +69,22 @@ public class GlobalExceptionHandler {
         ErrorResponseDto errorResponseDto = new ErrorResponseDto(exception.getMessage());
         return ResponseEntity
                 .status(HttpStatus.UNAUTHORIZED)
+                .body(errorResponseDto);
+    }
+
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<ErrorResponseDto> handleEntityNotFoundException(ForbiddenException exception) {
+        ErrorResponseDto errorResponseDto = new ErrorResponseDto(exception.getMessage());
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body(errorResponseDto);
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ErrorResponseDto> handleEntityNotFoundException(EntityNotFoundException exception) {
+        ErrorResponseDto errorResponseDto = new ErrorResponseDto(exception.getMessage());
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
                 .body(errorResponseDto);
     }
 }

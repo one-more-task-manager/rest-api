@@ -2,6 +2,8 @@ package com.danyatheworst.task_manager.todolist;
 
 import com.danyatheworst.task_manager.auth.dto.JwtUserDetailsDto;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,4 +24,14 @@ public class TodolistController {
         this.todolistService.save(payload, user.getId());
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> delete(
+            @PathVariable @NotNull @Positive Long id,
+            @AuthenticationPrincipal JwtUserDetailsDto user
+    ) {
+        this.todolistService.delete(id, user.getId());
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
 }
