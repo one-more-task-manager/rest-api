@@ -95,7 +95,6 @@ public class TodolistIntegrationTests {
     @Test
     void itShouldReturn201StatusCodeWhenTodolistWasRemoved() throws Exception {
         Todolist todolist = this.todolistRepository.save(new Todolist("todolist-test", this.user.getId()));
-        //since database is empty, todolist with id 1 is created
 
         this.mockMvc.perform(MockMvcRequestBuilders.delete("/todolists/{id}", todolist.getId())
                         .header("Authorization", "Bearer " + this.accessToken))

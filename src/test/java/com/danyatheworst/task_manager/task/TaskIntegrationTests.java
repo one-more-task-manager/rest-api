@@ -83,7 +83,7 @@ public class TaskIntegrationTests {
     }
 
     @Test
-    void itShouldReturn201StatusCodeWhenTodolistWasCreated() throws Exception {
+    void itShouldReturn201StatusCodeWhenTaskWasCreated() throws Exception {
         String taskTitle = "task-test";
         Long todolistId = this.todolist.getId();
         RequestCreateTaskDto payload = new RequestCreateTaskDto(taskTitle);
@@ -98,5 +98,20 @@ public class TaskIntegrationTests {
         Assertions.assertEquals(1, tasks.size());
         Assertions.assertEquals(taskTitle, tasks.get(0).getTitle());
         Assertions.assertEquals(todolistId, tasks.get(0).getTodolistId());
+    }
+
+    @Test
+    void itShouldReturn201StatusCodeWhenTaskWasRemoved() throws Exception {
+        Long todolistId = this.todolist.getId();
+        Task task = this.taskRepository.save(new Task("task-test", todolistId));
+
+        this.mockMvc.perform(MockMvcRequestBuilders.delete(
+                                "/todolists/{todolistId}/tasks/{taskId}", todolistId, task.getId()
+                        )
+                        .header("Authorization", "Bearer " + this.accessToken))
+                .andExpect(MockMvcResultMatchers.status().isNoContent());
+
+        List<Task> tasks = this.taskRepository.findAll();
+        Assertions.assertEquals(0, tasks.size());
     }
 }

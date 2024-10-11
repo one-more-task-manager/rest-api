@@ -25,4 +25,14 @@ public class TaskController {
         this.taskService.save(payload, todolistId, user.getId());
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
+    @DeleteMapping("{taskId}")
+    public ResponseEntity<Void> delete(
+            @PathVariable @NotNull @Positive Long todolistId,
+            @PathVariable @NotNull @Positive Long taskId,
+            @AuthenticationPrincipal JwtUserDetailsDto user
+    ) {
+        this.taskService.delete(taskId, todolistId, user.getId());
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }
