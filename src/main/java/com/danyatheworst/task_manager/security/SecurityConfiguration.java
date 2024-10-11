@@ -1,7 +1,7 @@
 package com.danyatheworst.task_manager.security;
 
-import com.danyatheworst.task_manager.user.CustomUserDetailsService;
 import com.danyatheworst.task_manager.auth.jwt.JwtFilter;
+import com.danyatheworst.task_manager.user.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

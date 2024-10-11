@@ -2,8 +2,8 @@ package com.danyatheworst.task_manager.auth;
 
 import com.danyatheworst.task_manager.auth.dto.RequestSignUpDto;
 import com.danyatheworst.task_manager.exceptions.EntityAlreadyExistsException;
-import com.danyatheworst.task_manager.user.UserRepository;
 import com.danyatheworst.task_manager.user.User;
+import com.danyatheworst.task_manager.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
