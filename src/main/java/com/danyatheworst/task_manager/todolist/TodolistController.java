@@ -17,12 +17,12 @@ public class TodolistController {
     private final TodolistService todolistService;
 
     @GetMapping("{id}")
-    public ResponseEntity<Void> get(
+    public ResponseEntity<Todolist> get(
             @PathVariable @NotNull @Positive Long id,
             @AuthenticationPrincipal JwtUserDetailsDto user
     ) {
-        this.todolistService.find(id, user.getId());
-        return ResponseEntity.status(HttpStatus.OK).build();
+        Todolist todolist = this.todolistService.find(id, user.getId());
+        return ResponseEntity.status(HttpStatus.OK).body(todolist);
     }
 
     @PostMapping("")
@@ -42,5 +42,4 @@ public class TodolistController {
         this.todolistService.delete(id, user.getId());
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
-
 }

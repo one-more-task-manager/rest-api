@@ -13,13 +13,14 @@ import java.util.Optional;
 public class TodolistService {
     private final TodolistRepository todolistRepository;
 
-    public void find(Long id, Long userId) {
+    public Todolist find(Long id, Long userId) {
         Todolist todolist = this.todolistRepository
                 .findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("todolist with id " + id + " does not exist"));
         if (!todolist.getUserId().equals(userId)) {
-            throw new ForbiddenException("todolist with id " + id + " does not belong to user with " + userId);
+            throw new ForbiddenException("todolist with id " + id + " does not belong to user with id" + userId);
         }
+        return todolist;
     }
 
     public void save(RequestCreateTodolistDto payload, Long userId) {
@@ -30,7 +31,7 @@ public class TodolistService {
         Optional<Todolist> todolist = this.todolistRepository.findById(id);
         if (todolist.isPresent()) {
             if (!todolist.get().getUserId().equals(userId)) {
-                throw new ForbiddenException("todolist with id " + id + " does not belong to user with " + userId);
+                throw new ForbiddenException("todolist with id " + id + " does not belong to user with id" + userId);
             }
             this.todolistRepository.deleteById(id);
         } else {
