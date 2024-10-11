@@ -26,15 +26,6 @@ public class TodolistController {
         return ResponseEntity.status(HttpStatus.OK).body(todolists);
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<Todolist> get(
-            @PathVariable @NotNull @Positive Long id,
-            @AuthenticationPrincipal JwtUserDetailsDto user
-    ) {
-        Todolist todolist = this.todolistService.findAndCheckOwnership(id, user.getId());
-        return ResponseEntity.status(HttpStatus.OK).body(todolist);
-    }
-
     @PostMapping("")
     public ResponseEntity<Void> create(
             @RequestBody @Valid RequestCreateTodolistDto payload,

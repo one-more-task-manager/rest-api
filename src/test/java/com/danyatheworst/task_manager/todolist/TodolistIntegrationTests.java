@@ -147,14 +147,6 @@ public class TodolistIntegrationTests {
     }
 
     @Test
-    void itShouldReturn403StatusCodeWhenFetchingTodolistThatDoesNotBelongToUser() throws Exception {
-        Long nonExistentId = 1234567854321L;
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/todolists/{id}", nonExistentId)
-                        .header("Authorization", "Bearer " + this.accessToken))
-                .andExpect(MockMvcResultMatchers.status().isNotFound());
-    }
-
-    @Test
     void itShouldReturn204StatusCodeWhenUpdateTodolist() throws Exception {
         String title = "todolist";
         Todolist todolist = this.todolistRepository.save(new Todolist(title, this.user.getId()));
