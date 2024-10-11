@@ -21,7 +21,8 @@ public class TodolistService {
         Todolist todolist = this.todolistRepository
                 .findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("todolist with id " + id + " does not exist"));
-        if (!todolist.getUserId().equals(userId)) {
+        boolean belongs = todolist.getUserId().equals(userId);
+        if (!belongs) {
             throw new ForbiddenException("todolist with id " + id + " does not belong to user with id" + userId);
         }
         return todolist;

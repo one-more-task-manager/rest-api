@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class RequestCreateTodolistDto {
     @NotBlank(message = "Invalid todolist title")
-    @Size(min = 1, max = 50, message = "Invalid todolist title")
+    @Size(min = 1, max = 50, message = "Todolist title should be between 1 and 50 characters")
     private String title;
 
     public RequestCreateTodolistDto(String title) {

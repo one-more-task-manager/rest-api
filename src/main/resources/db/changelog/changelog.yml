@@ -13,3 +13,10 @@ databaseChangeLog:
         - sqlFile:
             path: db/changelog/V2__create_todolists_table.sql
             relativeToChangelogFile: false
+  - changeSet:
+      id: 3
+      author: danil
+      changes:
+        - sqlFile:
+            path: db/changelog/V3__create_tasks_table.sql
+            relativeToChangelogFile: false
