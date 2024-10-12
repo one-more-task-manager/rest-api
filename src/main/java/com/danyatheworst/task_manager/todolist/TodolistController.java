@@ -32,7 +32,6 @@ public class TodolistController {
             @AuthenticationPrincipal JwtUserDetailsDto user
     ) {
         this.todolistService.save(payload, user.getId());
-
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
