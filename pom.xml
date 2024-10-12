@@ -9,9 +9,9 @@
 		<relativePath/>
 	</parent>
 
-	<artifactId>task-manager</artifactId>
+	<artifactId>rest-api</artifactId>
 	<version>0.0.1</version>
-	<name>task-manager</name>
+	<name>rest-api</name>
 	<url/>
 	<licenses>
 		<license/>
