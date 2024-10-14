@@ -52,12 +52,12 @@ public class SingUpIntegrationTests {
         RequestSignUpDto payload = new RequestSignUpDto(login, "password");
 
         //when
-        Long userId = this.registrationService.createUser(payload);
+        User signedUpUser = this.registrationService.createUser(payload);
 
         //then
         Optional<User> user = this.userRepository.findByUsername(login);
         Assertions.assertTrue(user.isPresent());
-        Assertions.assertEquals(user.get().getId(), userId);
+        Assertions.assertEquals(user.get().getId(), signedUpUser.getId());
         Assertions.assertEquals(user.get().getUsername(), login);
         Assertions.assertEquals(this.userRepository.findAll().size(), 1);
     }

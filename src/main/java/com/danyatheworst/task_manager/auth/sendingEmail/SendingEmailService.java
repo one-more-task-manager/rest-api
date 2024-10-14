@@ -1,4 +1,4 @@
-package com.danyatheworst.task_manager.auth;
+package com.danyatheworst.task_manager.auth.sendingEmail;
 
 import lombok.AllArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -10,7 +10,7 @@ public class SendingEmailService {
 
     private KafkaTemplate<Object, Object> template;
 
-    public void sendEmail(@PathVariable String what) {
-        this.template.send("topic1", new Foo1(what));
+    public void sendEmail(SignUpEvent signUpEvent) {
+        this.template.send("sign-up", signUpEvent);
     }
 }
