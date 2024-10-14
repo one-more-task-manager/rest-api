@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class SendingEmailService {
     private final KafkaTemplate<String, SignUpEvent> template;
-
+  
     public void sendEmail(SignUpEvent signUpEvent) {
         this.template.send("sign-up", signUpEvent);
     }
