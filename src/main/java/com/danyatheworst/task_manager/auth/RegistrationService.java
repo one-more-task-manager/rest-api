@@ -31,7 +31,7 @@ public class RegistrationService {
 
     public void handleNewUser(RequestSignUpDto signUpDto) {
         User user = this.createUser(signUpDto);
-        SignUpEvent event = new SignUpEvent(user.getId().toString(), "email@email.com", user.getUsername());
+        SignUpEvent event = new SignUpEvent(user.getId().toString(), "danyatheworst@gmail.com", user.getUsername());
         this.sendingEmailService.sendEmail(event);
     }
 }
