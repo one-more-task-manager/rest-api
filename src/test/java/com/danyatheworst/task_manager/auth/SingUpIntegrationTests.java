@@ -48,14 +48,14 @@ public class SingUpIntegrationTests {
     @Test
     void itShouldInsertUserIntoDatabase() {
         //given
-        String login = "user";
+        String login = "user@gmail.com";
         RequestSignUpDto payload = new RequestSignUpDto(login, "password");
 
         //when
         User signedUpUser = this.registrationService.createUser(payload);
 
         //then
-        Optional<User> user = this.userRepository.findByUsername(login);
+        Optional<User> user = this.userRepository.findByEmail(login);
         Assertions.assertTrue(user.isPresent());
         Assertions.assertEquals(user.get().getId(), signedUpUser.getId());
         Assertions.assertEquals(user.get().getUsername(), login);
@@ -65,7 +65,7 @@ public class SingUpIntegrationTests {
     @Test
     void itShouldThrowEntityAlreadyExistsExceptionWhenUserAlreadyExists() {
         //given
-        String login = "user";
+        String login = "user@gmail.com";
         RequestSignUpDto payload = new RequestSignUpDto(login, "password");
         this.userRepository.save(new User(login, "password"));
 

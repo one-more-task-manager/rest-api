@@ -21,17 +21,17 @@ public class RegistrationService {
     public User createUser(RequestSignUpDto payload) {
         try {
             String encodedPassword = this.passwordEncoder.encode(payload.getPassword());
-            User user = new User(payload.getUsername(), encodedPassword);
+            User user = new User(payload.getEmail(), encodedPassword);
             this.userRepository.save(user);
             return user;
         } catch (DataIntegrityViolationException e) {
-            throw new EntityAlreadyExistsException("That username is taken. Try another");
+            throw new EntityAlreadyExistsException("That email is taken. Try another");
         }
     }
 
     public void handleNewUser(RequestSignUpDto signUpDto) {
         User user = this.createUser(signUpDto);
-        SignUpEvent event = new SignUpEvent(user.getId().toString(), "danyatheworst@gmail.com", user.getUsername());
+        SignUpEvent event = new SignUpEvent(user.getId().toString(), signUpDto.getEmail(), user.getUsername());
         this.sendingEmailService.sendEmail(event);
     }
 }
