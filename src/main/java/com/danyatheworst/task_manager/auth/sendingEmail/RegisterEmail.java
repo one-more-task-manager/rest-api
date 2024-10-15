@@ -7,8 +7,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class SignUpEvent {
+public class RegisterEmail {
     private String userId;
     private String email;
-    private String username;
+    private String title;
+    private String body;
 }

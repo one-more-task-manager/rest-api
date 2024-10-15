@@ -42,7 +42,7 @@ public class SignInIntegrationTest {
     @Test
     void itShouldReturn401StatusCodeWhenUserDoesNotExist() throws Exception {
         RequestSignInDto payload = new RequestSignInDto("nonExistent@gmail.com", "password");
-        String expectedMessage = "Invalid username or password";
+        String expectedMessage = "Invalid email or password";
 
         this.mockMvc.perform(MockMvcRequestBuilders.post("/auth/sign-in")
                         .content(this.objectMapper.writeValueAsString(payload))

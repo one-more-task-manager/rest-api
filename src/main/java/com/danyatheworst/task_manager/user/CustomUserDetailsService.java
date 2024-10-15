@@ -17,6 +17,6 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) {
         return this.userRepository
                 .findByEmail(username)
-                .orElseThrow(() -> new InvalidCredentialsException("Invalid username or password"));
+                .orElseThrow(() -> new InvalidCredentialsException("Invalid email or password"));
     }
 }
