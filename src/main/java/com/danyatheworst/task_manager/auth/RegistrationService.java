@@ -1,8 +1,8 @@
 package com.danyatheworst.task_manager.auth;
 
 import com.danyatheworst.task_manager.auth.dto.RequestSignUpDto;
-import com.danyatheworst.task_manager.auth.sendingEmail.RegisterEmail;
 import com.danyatheworst.task_manager.auth.sendingEmail.SendingEmailService;
+import com.danyatheworst.task_manager.auth.sendingEmail.SignUpEmail;
 import com.danyatheworst.task_manager.exceptions.EntityAlreadyExistsException;
 import com.danyatheworst.task_manager.user.User;
 import com.danyatheworst.task_manager.user.UserRepository;
@@ -31,7 +31,7 @@ public class RegistrationService {
 
     public void handleNewUser(RequestSignUpDto signUpDto) {
         User user = this.createUser(signUpDto);
-        RegisterEmail email = new RegisterEmail(
+        SignUpEmail email = new SignUpEmail(
                 user.getId().toString(),
                 signUpDto.getEmail(),
                 "Welcome to our platform",
