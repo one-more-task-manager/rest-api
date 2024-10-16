@@ -13,3 +13,7 @@ jwt:
   expiration:
     access-token: 90000000
     refresh-token: 950000000
+
+security:
+  cors:
+    allowed-origins: "http://localhost:5173"
