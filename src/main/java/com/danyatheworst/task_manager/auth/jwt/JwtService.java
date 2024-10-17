@@ -79,7 +79,6 @@ public class JwtService {
                 .getBody();
     }
 
-
     private SecretKey generateKey() {
         return Keys.hmacShaKeyFor(Base64.getDecoder().decode(this.secret));
     }
