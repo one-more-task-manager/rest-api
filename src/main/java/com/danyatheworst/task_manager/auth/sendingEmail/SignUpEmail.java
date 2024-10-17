@@ -8,7 +8,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class SignUpEmail {
-    private String userId;
     private String email;
     private String title;
     private String body;

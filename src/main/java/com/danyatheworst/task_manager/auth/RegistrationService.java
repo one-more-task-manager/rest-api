@@ -30,9 +30,8 @@ public class RegistrationService {
     }
 
     public void handleNewUser(RequestSignUpDto signUpDto) {
-        User user = this.createUser(signUpDto);
+        this.createUser(signUpDto);
         SignUpEmail email = new SignUpEmail(
-                user.getId().toString(),
                 signUpDto.getEmail(),
                 "Welcome to our platform",
                 "Hello " + signUpDto.getEmail() + ",\\n\\nThank you for signing up!\""
