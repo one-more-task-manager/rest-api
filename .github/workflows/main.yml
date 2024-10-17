@@ -28,11 +28,8 @@ jobs:
       - name: Build and start dependencies using Docker Compose
         run: docker compose -f compose-stack/docker-compose-dev.yml up -d --build
 
-      - name: Wait for services to be ready
-        run: sleep 30  # Wait for 30 seconds (adjust depending on your setup) to make sure the containers are ready
-
       - name: Run integration tests inside img container
-        run: docker run --network compose-stack_default img mvn -B verify
+        run: docker run img mvn -B verify
 
       - name: Tear down Docker containers
         run: docker compose -f compose-stack/docker-compose-dev.yml down
