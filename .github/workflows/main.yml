@@ -26,10 +26,10 @@ jobs:
       - name: Build and start containers using Docker Compose
         run: docker compose -f compose-stack/docker-compose-dev.yml up -d --build
 
-      - name: Wait for services to be ready
-        run: |
-          docker compose -f compose-stack/docker-compose-dev.yml ps
-          docker compose -f compose-stack/docker-compose-dev.yml wait
+      #      - name: Wait for services to be ready
+      #        run: |
+      #          docker compose -f compose-stack/docker-compose-dev.yml ps
+      #          docker compose -f compose-stack/docker-compose-dev.yml wait
 
       - name: Run integration tests
         run: docker exec rest-api mvn -B verify
