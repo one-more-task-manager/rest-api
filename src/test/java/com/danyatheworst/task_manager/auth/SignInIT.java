@@ -19,7 +19,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @Testcontainers
 @SpringBootTest
 @AutoConfigureMockMvc
-public class SignInIntegrationTest {
+public class SignInIT {
     @Container
     private static final PostgreSQLContainer<?> postgres =
             new PostgreSQLContainer<>("postgres:14-alpine")
@@ -41,8 +41,8 @@ public class SignInIntegrationTest {
 
     @Test
     void itShouldReturn401StatusCodeWhenUserDoesNotExist() throws Exception {
-        RequestSignInDto payload = new RequestSignInDto("nonExistentUser", "password");
-        String expectedMessage = "Invalid username or password";
+        RequestSignInDto payload = new RequestSignInDto("nonExistent@gmail.com", "password");
+        String expectedMessage = "Invalid email or password";
 
         this.mockMvc.perform(MockMvcRequestBuilders.post("/auth/sign-in")
                         .content(this.objectMapper.writeValueAsString(payload))

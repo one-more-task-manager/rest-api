@@ -32,7 +32,7 @@ import java.util.Optional;
 @Testcontainers
 @SpringBootTest
 @AutoConfigureMockMvc
-public class TaskIntegrationTests {
+public class TaskIT {
     @Container
     private static final PostgreSQLContainer<?> postgres =
             new PostgreSQLContainer<>("postgres:14-alpine")
@@ -65,15 +65,14 @@ public class TaskIntegrationTests {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     private String accessToken;
-    private User user;
     private Todolist todolist;
 
     @BeforeEach
     void setUp() {
-        this.user = this.userRepository.save(new User("username", "password"));
-        this.todolist = this.todolistRepository.save(new Todolist("todolist", this.user.getId()));
+        User user = this.userRepository.save(new User("username@gmail.com", "password"));
+        this.todolist = this.todolistRepository.save(new Todolist("todolist", user.getId()));
         JwtUserDetailsDto jwtUserDetailsDto = new JwtUserDetailsDto(
-                this.user.getId(), this.user.getUsername(), this.user.getAuthorities()
+                user.getId(), user.getUsername(), user.getAuthorities()
         );
         this.accessToken = this.jwtService.generateAccessToken(jwtUserDetailsDto);
     }

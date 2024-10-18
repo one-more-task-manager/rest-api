@@ -29,7 +29,7 @@ public class JwtService {
     public String generateAccessToken(JwtUserDetailsDto jwtUserDetailsDto) {
         Claims claims = Jwts.claims();
         claims.put("id", jwtUserDetailsDto.getId());
-        claims.put("username", jwtUserDetailsDto.getUsername());
+        claims.put("username", jwtUserDetailsDto.getEmail());
         claims.put("authorities", jwtUserDetailsDto.getAuthorities());
 
         return Jwts
@@ -44,7 +44,7 @@ public class JwtService {
     public String generateRefreshToken(JwtUserDetailsDto jwtUserDetailsDto) {
         Claims claims = Jwts.claims();
         claims.put("id", jwtUserDetailsDto.getId());
-        claims.put("username", jwtUserDetailsDto.getUsername());
+        claims.put("username", jwtUserDetailsDto.getEmail());
         claims.put("authorities", jwtUserDetailsDto.getAuthorities());
 
         return Jwts
@@ -78,7 +78,6 @@ public class JwtService {
                 .parseClaimsJws(token)
                 .getBody();
     }
-
 
     private SecretKey generateKey() {
         return Keys.hmacShaKeyFor(Base64.getDecoder().decode(this.secret));

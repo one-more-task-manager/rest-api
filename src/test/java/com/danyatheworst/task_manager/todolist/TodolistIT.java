@@ -28,7 +28,7 @@ import java.util.Optional;
 @Testcontainers
 @SpringBootTest
 @AutoConfigureMockMvc
-public class TodolistIntegrationTests {
+public class TodolistIT {
     @Container
     private static final PostgreSQLContainer<?> postgres =
             new PostgreSQLContainer<>("postgres:14-alpine")
@@ -62,7 +62,7 @@ public class TodolistIntegrationTests {
 
     @BeforeEach
     void setUp() {
-        this.user = this.userRepository.save(new User("username", "password"));
+        this.user = this.userRepository.save(new User("username@gmail.com", "password"));
         JwtUserDetailsDto jwtUserDetailsDto = new JwtUserDetailsDto(
                 this.user.getId(), this.user.getUsername(), this.user.getAuthorities()
         );
@@ -116,7 +116,7 @@ public class TodolistIntegrationTests {
     void itShouldReturn403StatusCodeWhenTodolistToDeleteDoesNotBelongToUser() throws Exception {
         String todolistTitle = "todolist-test";
         Todolist todolist = this.todolistRepository.save(new Todolist(todolistTitle, this.user.getId()));
-        User maliciousUser = this.userRepository.save(new User("malicious user", "malicious password"));
+        User maliciousUser = this.userRepository.save(new User("malicious-user@gmail.com", "malicious password"));
         JwtUserDetailsDto jwtUserDetailsDto = new JwtUserDetailsDto(
                 maliciousUser.getId(), maliciousUser.getUsername(), maliciousUser.getAuthorities()
         );
@@ -135,7 +135,7 @@ public class TodolistIntegrationTests {
     void itShouldReturn404StatusCodeWhenFetchingTodolistThatDoesNotExist() throws Exception {
         String title = "todolist-test";
         Todolist todolist = this.todolistRepository.save(new Todolist(title, this.user.getId()));
-        User maliciousUser = this.userRepository.save(new User("malicious user", "malicious password"));
+        User maliciousUser = this.userRepository.save(new User("malicious-user@gmail.com", "malicious password"));
         JwtUserDetailsDto jwtUserDetailsDto = new JwtUserDetailsDto(
                 maliciousUser.getId(), maliciousUser.getUsername(), maliciousUser.getAuthorities()
         );

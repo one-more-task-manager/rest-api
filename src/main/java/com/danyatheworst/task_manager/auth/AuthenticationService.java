@@ -22,7 +22,7 @@ public class AuthenticationService {
 
     public ResponseJwtDto authenticate(RequestSignInDto payload) {
         try {
-            Authentication auth = new UsernamePasswordAuthenticationToken(payload.getUsername(), payload.getPassword());
+            Authentication auth = new UsernamePasswordAuthenticationToken(payload.getEmail(), payload.getPassword());
             Authentication authResult = this.authenticationManager.authenticate(auth);
             User user = (User) authResult.getPrincipal();
             JwtUserDetailsDto jwtUserDetailsDto = new JwtUserDetailsDto(
@@ -32,7 +32,7 @@ public class AuthenticationService {
             String refresh = this.jwtService.generateRefreshToken(jwtUserDetailsDto);
             return new ResponseJwtDto(access, refresh);
         } catch (InternalAuthenticationServiceException e) {
-            throw new InvalidCredentialsException("Invalid username or password");
+            throw new InvalidCredentialsException("Invalid email or password");
         }
     }
 }

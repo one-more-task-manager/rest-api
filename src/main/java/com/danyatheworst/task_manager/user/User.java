@@ -1,6 +1,7 @@
 package com.danyatheworst.task_manager.user;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,14 +25,20 @@ public class User implements UserDetails {
     private Long id;
 
     @Column
-    private String username;
+    @Email
+    private String email;
 
     @Column
     private String password;
 
-    public User(String username, String password) {
-        this.username = username;
+    public User(String email, String password) {
+        this.email = email;
         this.password = password;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email;
     }
 
     @Override

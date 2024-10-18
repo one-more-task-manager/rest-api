@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface TodolistRepository extends JpaRepository<Todolist, Long> {
 
-    @Query("SELECT t FROM Todolist t WHERE t.userId = :userId")
+    @Query("SELECT t FROM Todolist t WHERE t.userId = :userId ORDER BY t.id")
     List<Todolist> findAllByUserId(Long userId);
 }

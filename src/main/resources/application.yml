@@ -8,6 +8,9 @@ spring:
       ddl-auto: validate
   liquibase:
     change-log: classpath:/db/changelog/changelog.yml
+  kafka:
+    producer:
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 
 server:
   servlet:

@@ -38,7 +38,7 @@ public class AuthController {
             BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-            throw new InvalidCredentialsException("Invalid username or password");
+            throw new InvalidCredentialsException("Invalid email or password");
         }
 
         ResponseJwtDto responseJwtDto = this.authenticationService.authenticate(payload);

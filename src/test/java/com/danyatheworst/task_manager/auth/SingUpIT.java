@@ -19,7 +19,7 @@ import java.util.Optional;
 
 @Testcontainers
 @SpringBootTest
-public class SingUpIntegrationTests {
+public class SingUpIT {
     @Container
     private static final PostgreSQLContainer<?> postgres =
             new PostgreSQLContainer<>("postgres:14-alpine")
@@ -48,16 +48,16 @@ public class SingUpIntegrationTests {
     @Test
     void itShouldInsertUserIntoDatabase() {
         //given
-        String login = "user";
+        String login = "user@gmail.com";
         RequestSignUpDto payload = new RequestSignUpDto(login, "password");
 
         //when
-        Long userId = this.registrationService.createUser(payload);
+        User signedUpUser = this.registrationService.createUser(payload);
 
         //then
-        Optional<User> user = this.userRepository.findByUsername(login);
+        Optional<User> user = this.userRepository.findByEmail(login);
         Assertions.assertTrue(user.isPresent());
-        Assertions.assertEquals(user.get().getId(), userId);
+        Assertions.assertEquals(user.get().getId(), signedUpUser.getId());
         Assertions.assertEquals(user.get().getUsername(), login);
         Assertions.assertEquals(this.userRepository.findAll().size(), 1);
     }
@@ -65,7 +65,7 @@ public class SingUpIntegrationTests {
     @Test
     void itShouldThrowEntityAlreadyExistsExceptionWhenUserAlreadyExists() {
         //given
-        String login = "user";
+        String login = "user@gmail.com";
         RequestSignUpDto payload = new RequestSignUpDto(login, "password");
         this.userRepository.save(new User(login, "password"));
 

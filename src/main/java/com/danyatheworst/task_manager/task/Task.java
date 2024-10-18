@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -23,6 +25,9 @@ public class Task {
     @Column
     private Boolean isDone;
 
+    @Column(name = "status_updated_at")
+    private LocalDateTime statusUpdatedAt;
+
     @JoinColumn(name = "todolist_id", nullable = false)
     private Long todolistId;
 
@@ -32,3 +37,4 @@ public class Task {
         this.isDone = false;
     }
 }
+

@@ -10,6 +10,6 @@ import java.util.Collection;
 @AllArgsConstructor
 public class JwtUserDetailsDto {
     private Long id;
-    private String username;
+    private String email;
     private Collection<? extends GrantedAuthority> authorities;
 }

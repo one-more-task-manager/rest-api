@@ -5,9 +5,15 @@ spring:
     password: password
   jpa:
     show-sql: true
+  kafka:
+    bootstrap-servers: localhost:9092
 
 jwt:
   secret: 7469cde1eefe88cd9732adb7680bdea0dbee84904df49f31308fc9481a5e85553db13ae6ce9bc2f5ce59451fc70d6b1705d35851cd5b6fb94ca974f2d01073e6419dee7ca44914069bf9a0aa303b2a7da359c100de96b9cf5c3b9810ded33d09cca4170b54aba7f09bfe500aa7ccb143f2806b373c0dbd62cf2760a76fb91d3233f3a7242cf07e5093c6aba79e3587790f72b2cdadaec42e9a56b131ead654d1366d848004f20890830cbdd2d4b780c61e83b19833c293af0cc47b5ac77812a30be28c452b8f0239c0f2216de5817bab5342a7c7cf2fefe4f465d53a7874cd6932a73d8f322169b70c852babf6c75131af669f31ae14b2c8c2131f5762b4c48b
   expiration:
-    access-token: 90000000
-    refresh-token: 950000000
+    access-token: 10000
+    refresh-token: 9500000
+
+security:
+  cors:
+    allowed-origins: "http://localhost:5173"

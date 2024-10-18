@@ -33,7 +33,7 @@ public class TaskController {
     @PostMapping("")
     public ResponseEntity<Void> create(
             @RequestBody @Valid RequestCreateTaskDto payload,
-            @PathVariable @NotNull @Positive Long todolistId,
+            @PathVariable Long todolistId,
             @AuthenticationPrincipal JwtUserDetailsDto user
     ) {
         this.taskService.save(payload, todolistId, user.getId());
@@ -44,9 +44,10 @@ public class TaskController {
     public ResponseEntity<Void> update(
             @PathVariable Long todolistId,
             @PathVariable Long taskId,
-            @RequestBody RequestUpdateTaskDto payload,
+            @RequestBody @Valid RequestUpdateTaskDto payload,
             @AuthenticationPrincipal JwtUserDetailsDto user
     ) {
+
         this.taskService.update(new UpdateTaskDto(taskId, payload, todolistId, user.getId()));
         return ResponseEntity.noContent().build();
     }
