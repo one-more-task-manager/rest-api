@@ -19,7 +19,7 @@ import java.util.Optional;
 
 @Testcontainers
 @SpringBootTest
-public class SingUpIntegrationTests {
+public class SingUpIT {
     @Container
     private static final PostgreSQLContainer<?> postgres =
             new PostgreSQLContainer<>("postgres:14-alpine")

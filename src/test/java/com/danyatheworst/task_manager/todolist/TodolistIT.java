@@ -28,7 +28,7 @@ import java.util.Optional;
 @Testcontainers
 @SpringBootTest
 @AutoConfigureMockMvc
-public class TodolistIntegrationTests {
+public class TodolistIT {
     @Container
     private static final PostgreSQLContainer<?> postgres =
             new PostgreSQLContainer<>("postgres:14-alpine")

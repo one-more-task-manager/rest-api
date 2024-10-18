@@ -32,7 +32,7 @@ import java.util.Optional;
 @Testcontainers
 @SpringBootTest
 @AutoConfigureMockMvc
-public class TaskIntegrationTests {
+public class TaskIT {
     @Container
     private static final PostgreSQLContainer<?> postgres =
             new PostgreSQLContainer<>("postgres:14-alpine")
