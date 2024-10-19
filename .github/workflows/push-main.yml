@@ -14,7 +14,7 @@ jobs:
       - name: Trigger repo
         uses: convictional/trigger-workflow-and-wait@v1.6.1
         with:
-          owner: one-more-task-manager
+          owner: danyatheworst
           repo: compose-stack
           ref: main
           github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
