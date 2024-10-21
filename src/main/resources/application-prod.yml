@@ -1,7 +1,7 @@
 spring:
   datasource:
     url: jdbc:postgresql://postgres:5432/one-more-task-manager-db
-    username: ${POSTGRES_USERNAME}
+    username: ${POSTGRES_USER}
     password: ${POSTGRES_PASSWORD}
   kafka:
     bootstrap-servers: kafka:9092
