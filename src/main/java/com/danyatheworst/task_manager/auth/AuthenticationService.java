@@ -8,7 +8,7 @@ import com.danyatheworst.task_manager.exceptions.InvalidCredentialsException;
 import com.danyatheworst.task_manager.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.InternalAuthenticationServiceException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -31,7 +31,7 @@ public class AuthenticationService {
             String access = this.jwtService.generateAccessToken(jwtUserDetailsDto);
             String refresh = this.jwtService.generateRefreshToken(jwtUserDetailsDto);
             return new ResponseJwtDto(access, refresh);
-        } catch (InternalAuthenticationServiceException e) {
+        } catch (BadCredentialsException ex) {
             throw new InvalidCredentialsException("Invalid email or password");
         }
     }
