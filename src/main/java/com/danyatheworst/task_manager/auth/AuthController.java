@@ -1,9 +1,6 @@
 package com.danyatheworst.task_manager.auth;
 
-import com.danyatheworst.task_manager.auth.dto.RequestJwtRefreshDto;
-import com.danyatheworst.task_manager.auth.dto.RequestSignInDto;
-import com.danyatheworst.task_manager.auth.dto.RequestSignUpDto;
-import com.danyatheworst.task_manager.auth.dto.ResponseJwtDto;
+import com.danyatheworst.task_manager.auth.dto.*;
 import com.danyatheworst.task_manager.auth.jwt.JwtService;
 import com.danyatheworst.task_manager.exceptions.InvalidCredentialsException;
 import com.danyatheworst.task_manager.exceptions.UnauthorizedException;
@@ -12,11 +9,9 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -62,5 +57,12 @@ public class AuthController {
         String accessToken = this.jwtService.generateAccessTokenFromRefreshToken(payload.getRefreshToken());
         ResponseJwtDto responseJwtDto = new ResponseJwtDto(accessToken, payload.getRefreshToken());
         return ResponseEntity.status(HttpStatus.OK).body(responseJwtDto);
+    }
+
+    @GetMapping("me")
+    public ResponseEntity<JwtUserDetailsDto> get(
+            @AuthenticationPrincipal JwtUserDetailsDto user
+    ) {
+        return ResponseEntity.status(HttpStatus.OK).body(user);
     }
 }
