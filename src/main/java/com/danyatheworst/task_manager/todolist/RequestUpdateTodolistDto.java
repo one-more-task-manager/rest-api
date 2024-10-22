@@ -1,6 +1,5 @@
 package com.danyatheworst.task_manager.todolist;
 
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +9,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class RequestUpdateTodolistDto {
-    @NotBlank(message = "Invalid todolist title")
     @Size(min = 1, max = 50, message = "Invalid todolist title")
     private String title;
 

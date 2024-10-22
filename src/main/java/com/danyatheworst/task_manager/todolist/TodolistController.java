@@ -37,7 +37,7 @@ public class TodolistController {
 
     @PatchMapping("{id}")
     public ResponseEntity<Void> update(
-            @PathVariable @NotNull @Positive Long id,
+            @PathVariable Long id,
             @RequestBody @Valid RequestUpdateTodolistDto payload,
             @AuthenticationPrincipal JwtUserDetailsDto user
     ) {

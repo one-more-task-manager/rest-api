@@ -38,7 +38,6 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
-
     @ExceptionHandler(EntityAlreadyExistsException.class)
     public ResponseEntity<ErrorResponseDto> handleEntityAlreadyExistsException(EntityAlreadyExistsException exception) {
         ErrorResponseDto errorResponseDto = new ErrorResponseDto(exception.getMessage());
